@@ -10,7 +10,7 @@ contract NFTGame is ERC721URIStorage, Ownable
     {        
         uint256 speed;
         uint256 fuel;        
-        uint256 refuel;
+        uint256 lastRefuel;
         uint256 currentRange;
     }
 
@@ -23,12 +23,20 @@ contract NFTGame is ERC721URIStorage, Ownable
 
     }    
 
-    function mint(uint256 speed, uint256 fuel, uint256 refuel, uint range) 
+    function mint(uint256 speed, uint256 fuel, uint256 lastRefuel, uint range) 
         public onlyOwner
     {
         uint256 newid = tokenCounter;
-        carDetails[newid] = Car(speed, fuel, refuel, range);
+        carDetails[newid] = Car(speed, fuel, lastRefuel, range);
         _safeMint(msg.sender, newid);
         tokenCounter++;
+    }
+
+    function refuel(uint256 tokenId) public
+    {
+        Car storage car = carDetails[tokenId];
+        require(car.lastRefuel+car.fuel>block.timestamp);
+        car.lastRefuel=block.timestamp;
+
     }
 }
