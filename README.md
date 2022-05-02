@@ -11,5 +11,9 @@ nft game playing around with changing metadata once nft's are minted
 
 # To Launch
 
+
+## Smart contract
 1. Run ganache-cli to startup local chain
-2. Run truffle compile
+2. truffle compile / truffle migrate
+3. truffle test
+
