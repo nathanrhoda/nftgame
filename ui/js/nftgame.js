@@ -502,41 +502,38 @@ const abi =  [
 
 $(function()
 {    
-    var NFTGame;
-    var tokenId;
-    var speed = 1;
-    var fuel = 1;
-    var lastRefuel = 1;
-    var range = 1;
+    var NFTGame;    
 
     $(document).ready(function () {
         console.log("Ready Set Go");
         $('#btnMint').click(function(){            
-            NFTGame.tokenCounter
-                .call(function (err, result) {                
-                    tokenId = result.toString()
-                    console.log(result.toString());
-                    NFTGame.mint   
-                        .sendTransaction(speed, fuel, lastRefuel, range, function (err, mintResult) {
-                            NFTGame.tokenCounter
-                                .call(function (err, result) {                                
-                                    console.log('New Token Id: ', result.toString());
-                                });                        
-                        });                                         
-                });
+
+            var speed = document.getElementById('txtSpeed').value;
+            var fuel = document.getElementById('txtFuel').value;
+            var lastRefuel = document.getElementById('txtlastRefuel').value;
+            var range = document.getElementById('txtRange').value;
+
+            
+            NFTGame.mint   
+                .sendTransaction(speed, fuel, lastRefuel, range, function (err, mintResult) {
+                    NFTGame.tokenCounter
+                        .call(function (err, result) {                                
+                            console.log('New Token Id: ', result.toString());
+                            document.getElementById('lblTokenId').value = tokenId;
+                        });                        
+                });                                         
         });                 
         
 
         $('#btnRetrieve').click(function(){
-            NFTGame.tokenCounter
-            .call(function (err, result) {                                
-                var tokenId = result-1;
-                console.log('Token Id: ', tokenId);
-                NFTGame.getCarDetails
-                .call(tokenId, function (error, result) {
-                    alert(result);                                            
+            var tokenId = document.getElementById('txtSearchToken').value;            
+            NFTGame.getCarDetails
+                .call(tokenId, async function (error, result) {
+                    document.getElementById('txtSpeed').value = result[0];
+                    document.getElementById('txtFuel').value = result[1];
+                    document.getElementById('txtlastRefuel').value = result[2];
+                    document.getElementById('txtRange').value = result[3];                                    
                 });    
-            });                              
         });
     });
 
