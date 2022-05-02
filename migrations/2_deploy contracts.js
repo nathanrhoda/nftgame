@@ -1,5 +1,5 @@
 const nftGame = artifacts.require("NFTGame");
 
 module.exports = function (deployer) {
-  deployer.deploy(nftGame);
+  deployer.deploy(nftGame, "NFTGame", "CARNFT");
 };

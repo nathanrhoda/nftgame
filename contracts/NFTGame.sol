@@ -37,6 +37,5 @@ contract NFTGame is ERC721URIStorage, Ownable
         Car storage car = carDetails[tokenId];
         require(car.lastRefuel+car.fuel>block.timestamp);
         car.lastRefuel=block.timestamp;
-
     }
 }
